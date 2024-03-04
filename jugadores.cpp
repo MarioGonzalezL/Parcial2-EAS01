@@ -11,16 +11,32 @@ class Jugador{
         Agrega propiedades para guardar la vida(número entero), ataque(número entero) y nombre del jugador.
         Agrega una propiedad para guardar el jugador que lo atacó por última vez.
     */
-    
+public:
+    int vida;
+    int ataque;
+    string name;
+
+    Jugador* lastenemy;
+
     Jugador(); 
-    Jugador(/* agrega parámetros para asignar hp, ataque y nombre */); 
+    Jugador(int hp, int attack, string nombre); 
     
-    void atacar(/* agregar parámetros para atacar a otro jugador*/); 
+    void atacar( Jugador enemigo); 
 };
 
 int main()
 {
     srand(time(0));  // Seed para generar valores aleatorios
+
+    Jugador p1(100, 18, "Flyshok");
+    Jugador p2(150, 14, "Cabezon");
+
+    do
+    {
+       p1.atacar (p2);
+       p2.atacar (p1);
+    } while (p1.vida >=0 || p2.vida >= 0);
+    
     
     /*
         Crear al menos 2 jugadores con diferentes nombres, vida y ataque. 
@@ -33,13 +49,24 @@ int main()
 }
 
 Jugador::Jugador(){
+    vida= 100;
+    ataque = 5;
+    name = "No definido";
     /*
         Asignar 100 a hp y 5 a attack como valores default.
         Asignar 'No definido' al nombre como default.
     */
 }
 
-Jugador::Jugador(/* Agrega parámetros para asignar hp, ataque y nombre*/){
+Jugador::Jugador(int hp, int attack, string nombre){
+    if (hp<=200 && hp>0){
+    vida = hp;
+    }
+    if (attack<=20 && attack>0){
+    ataque = attack;
+    }
+
+    name= nombre;
     /*
         Asignar los parámetros recibidos a las propiedades del objeto.
         No se pueden asignar valores negativos a hp y attack.
@@ -47,7 +74,18 @@ Jugador::Jugador(/* Agrega parámetros para asignar hp, ataque y nombre*/){
     */
 }
 
-void Jugador::atacar(/* Agregar parámetros para atacar a otro Jugador */){
+void Jugador::atacar(Jugador enemigo){
+    int x= rand() % 5;
+    if(x == 0){
+        cout << "ATAQUE FALLIDO" << endl;
+        cout << name << " ataco a " << enemigo.name << " pero fallo, la vida restante de " << enemigo.name << " es " << enemigo.vida << endl;
+    }else {
+        enemigo.vida -= ataque;
+        cout << name << " ataco a " << enemigo.name << " e hizo " << ataque << " de dano, la vida restante de " << enemigo.name << " es " << enemigo.vida << endl;
+    }
+
+    enemigo.lastenemy= this;
+
     /*
         El jugador atacado(el que recibes como parámetro) pierde HP igual al ataque del jugador que ataca.
         Existe un 20% de probabilidad de que el ataque falle y no haga daño.
@@ -58,7 +96,7 @@ void Jugador::atacar(/* Agregar parámetros para atacar a otro Jugador */){
     */
     /*
     Nota:
-        int x = rand() & 1000; asigna un valor aleatorio entre 0 y 999 a x;
+        int x = rand() % 1000; asigna un valor aleatorio entre 0 y 999 a x;
         Puedes usar esto para la probabilidad del ataque.
     */
 }

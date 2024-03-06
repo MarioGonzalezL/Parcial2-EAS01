@@ -21,7 +21,7 @@ public:
     Jugador(); 
     Jugador(int hp, int attack, string nombre); 
     
-    void atacar( Jugador enemigo); 
+    void atacar( Jugador &enemigo); 
 };
 
 int main()
@@ -35,7 +35,15 @@ int main()
     {
        p1.atacar (p2);
        p2.atacar (p1);
-    } while (p1.vida >=0 || p2.vida >= 0);
+    } while (p1.vida >=0 && p2.vida >= 0);
+
+    if(p1.vida>p2.vida){
+        cout << "EL ganador es " << p1.name << endl;
+    }
+
+    if(p1.vida<p2.vida){
+        cout << "EL ganador es " << p2.name << endl;
+    }
     
     
     /*
@@ -74,7 +82,7 @@ Jugador::Jugador(int hp, int attack, string nombre){
     */
 }
 
-void Jugador::atacar(Jugador enemigo){
+void Jugador::atacar(Jugador &enemigo){
     int x= rand() % 5;
     if(x == 0){
         cout << "ATAQUE FALLIDO" << endl;
